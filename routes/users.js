@@ -9,6 +9,13 @@ let config = require('config');
 let auth = require('../middleware/auth');
 var nodemailer = require('nodemailer');
 
+router.post('/fileupload',(req,res)=>{
+    //let loggedInUser = req.user._id;
+    console.log('Entered file upload API');
+    console.log(req.body);
+    return;
+})
+
 router.post('/signup',(req,res)=>{
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
@@ -84,8 +91,13 @@ router.get('/verify',(req,res)=>{
         user=>{
             User.findOneAndUpdate({ _id : user._id },{ $set : { isverified : true } }).then(
                 verfied=>{
-                    let link = 'http://localhost:3000';
-                    return res.send('Account verfied...Now you can login to your account.');
+                    if(verfied){
+                        let link = 'http://localhost:3000';
+                        return res.send('Account verfied...Now you can login to your account.');
+                    }
+                    else{
+                        res.send('Error in account verification.')
+                    }
                 }
             )
         }
@@ -107,7 +119,7 @@ router.post('/forgotpassword',(req,res)=>{
                             service: 'gmail',
                             auth: {
                             user: 'idiotfriends04@gmail.com',
-                            pass: ''
+                            pass: 'aj16112111'
                             }
                         });
                         var mailOptions = {
@@ -125,7 +137,7 @@ router.post('/forgotpassword',(req,res)=>{
                             }
                         });
 
-                        return res.send('Account verfied...Now you can login to your account.');
+                        return res.status(200).json({sent : 'New password email sent...Click on the link in your email to set new password.'});
                     }
                 )
             }
