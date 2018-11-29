@@ -119,7 +119,7 @@ router.post('/forgotpassword',(req,res)=>{
                             service: 'gmail',
                             auth: {
                             user: 'idiotfriends04@gmail.com',
-                            pass: 'aj16112111'
+                            pass: ''
                             }
                         });
                         var mailOptions = {
